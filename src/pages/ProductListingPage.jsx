@@ -66,19 +66,24 @@ const ProductListingPage = () => {
     : products;
   
   return (
-    <div className="product-listing-page">
-      <div className="filters">
-        <div className="search-bar">
+    <div className="container mx-auto px-4 py-6">
+      <div className="mb-8 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between">
+        <div className="md:w-1/2">
           <input
             type="text"
             placeholder="Search products..."
             value={searchTerm}
             onChange={handleSearchChange}
+            className="form-input"
           />
         </div>
         
-        <div className="category-filter">
-          <select value={selectedCategory} onChange={handleCategoryChange}>
+        <div className="md:w-1/3">
+          <select 
+            value={selectedCategory} 
+            onChange={handleCategoryChange}
+            className="form-input bg-white"
+          >
             <option value="">All Categories</option>
             {categories.map(category => (
               <option key={category} value={category}>
@@ -89,18 +94,24 @@ const ProductListingPage = () => {
         </div>
       </div>
       
-      {error && <div className="error-message">{error}</div>}
+      {error && (
+        <div className="bg-red-50 text-red-600 p-4 rounded mb-6 text-center">
+          {error}
+        </div>
+      )}
       
       {isLoading ? (
-        <div className="loading">Loading products...</div>
+        <div className="text-center py-12 text-gray-500">Loading products...</div>
       ) : (
-        <div className="products-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))
           ) : (
-            <div className="no-products">No products found.</div>
+            <div className="col-span-full text-center py-12 text-gray-500">
+              No products found.
+            </div>
           )}
         </div>
       )}

@@ -35,36 +35,55 @@ const LoginPage = () => {
   };
   
   return (
-    <div className="login-container">
-      <div className="login-form-container">
-        <h1>Login</h1>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>
+        
+        {error && (
+          <div className="bg-red-50 text-red-600 p-3 rounded mb-4 text-center">
+            {error}
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+              Username
+            </label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className="form-input"
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="form-input"
               required
             />
           </div>
-          <button type="submit" className="login-btn" disabled={isLoading}>
+          
+          <button 
+            type="submit" 
+            className="w-full btn-primary py-2"
+            disabled={isLoading}
+          >
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <div className="login-hint">
+        
+        <div className="mt-6 text-center text-sm text-gray-500">
           <p>Hint: Use 'mor_2314' as username and '83r5^_' as password for testing</p>
         </div>
       </div>

@@ -8,7 +8,6 @@ import LoginPage from './pages/LoginPage';
 import ProductListingPage from './pages/ProductListingPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
-import './App.css';
 
 // Component to redirect based on auth status
 const AuthRedirect = () => {
@@ -19,9 +18,9 @@ const AuthRedirect = () => {
 function AppRoutes() {
   return (
     <Router>
-      <div className="app">
+      <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
-        <main className="content">
+        <main className="flex-grow">
           <Routes>
             {/* Public route */}
             <Route path="/login" element={<LoginPage />} />

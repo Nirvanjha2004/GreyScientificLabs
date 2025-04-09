@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import './CartPage.css';
 
 const CartPage = () => {
   const { cart, updateQuantity, removeFromCart, clearCart, getTotalPrice } = useCart();
@@ -29,60 +28,71 @@ const CartPage = () => {
   };
   
   return (
-    <div className="cart-page">
-      <h1>Your Cart</h1>
+    <div className="container mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-8 text-gray-800">Your Cart</h1>
       
       {checkoutSuccess && (
-        <div className="checkout-success-message">
+        <div className="bg-green-100 text-green-700 p-4 rounded mb-6 text-center animate-fade-in">
           Order placed successfully!
         </div>
       )}
       
       {cart.length === 0 && !checkoutSuccess ? (
-        <div className="empty-cart">
-          <p>Your cart is empty</p>
-          <Link to="/" className="continue-shopping-btn">Continue Shopping</Link>
+        <div className="text-center py-12">
+          <p className="text-gray-500 mb-4">Your cart is empty</p>
+          <Link to="/" className="btn-secondary">Continue Shopping</Link>
         </div>
       ) : (
         <>
           {cart.length > 0 && (
             <>
-              <div className="cart-items">
-                <div className="cart-header">
-                  <div className="cart-item-product">Product</div>
-                  <div className="cart-item-price">Price</div>
-                  <div className="cart-item-quantity">Quantity</div>
-                  <div className="cart-item-total">Total</div>
-                  <div className="cart-item-actions">Actions</div>
+              <div className="mb-8">
+                <div className="hidden md:grid md:grid-cols-5 gap-4 font-medium text-gray-700 border-b pb-2 mb-4">
+                  <div className="col-span-2">Product</div>
+                  <div className="text-center">Price</div>
+                  <div className="text-center">Quantity</div>
+                  <div className="text-right">Total</div>
                 </div>
                 
                 {cart.map(item => (
-                  <div className="cart-item" key={item.id}>
-                    <div className="cart-item-product">
-                      <div className="cart-item-image">
-                        <img src={item.image} alt={item.title} />
+                  <div 
+                    key={item.id}
+                    className="grid grid-cols-1 md:grid-cols-5 gap-4 border border-gray-200 rounded-lg p-4 mb-4"
+                  >
+                    <div className="md:col-span-2 flex gap-4">
+                      <div className="w-20 h-20 bg-gray-50 p-2 flex items-center justify-center rounded">
+                        <img src={item.image} alt={item.title} className="max-h-full max-w-full object-contain" />
                       </div>
-                      <div className="cart-item-details">
-                        <h3>{item.title}</h3>
-                        <p className="cart-item-category">{item.category}</p>
+                      <div>
+                        <h3 className="font-medium text-gray-800">{item.title}</h3>
+                        <p className="text-sm text-gray-500 capitalize">{item.category}</p>
                       </div>
                     </div>
-                    <div className="cart-item-price">${item.price.toFixed(2)}</div>
-                    <div className="cart-item-quantity">
-                      <input
-                        type="number"
-                        min="1"
-                        value={item.quantity}
-                        onChange={(e) => handleQuantityChange(item.id, e)}
-                      />
+                    
+                    <div className="flex justify-between md:block">
+                      <span className="md:hidden font-medium">Price:</span>
+                      <span className="md:text-center block">${item.price.toFixed(2)}</span>
                     </div>
-                    <div className="cart-item-total">
-                      ${(item.price * item.quantity).toFixed(2)}
+                    
+                    <div className="flex justify-between md:block">
+                      <span className="md:hidden font-medium">Quantity:</span>
+                      <div className="md:text-center">
+                        <input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          onChange={(e) => handleQuantityChange(item.id, e)}
+                          className="form-input w-20 text-center"
+                        />
+                      </div>
                     </div>
-                    <div className="cart-item-actions">
+                    
+                    <div className="flex justify-between items-center md:flex-col">
+                      <span className="md:hidden font-medium">Total:</span>
+                      <span className="md:text-right block font-medium">${(item.price * item.quantity).toFixed(2)}</span>
                       <button 
                         onClick={() => handleRemove(item.id)}
-                        className="remove-btn"
+                        className="text-red-600 hover:text-red-800 text-sm mt-2 transition-colors md:self-end"
                       >
                         Remove
                       </button>
@@ -91,14 +101,16 @@ const CartPage = () => {
                 ))}
               </div>
               
-              <div className="cart-summary">
-                <div className="cart-total">
+              <div className="border-t pt-6">
+                <div className="flex justify-between items-center mb-6 text-xl font-bold">
                   <span>Total:</span>
                   <span>${getTotalPrice().toFixed(2)}</span>
                 </div>
-                <div className="cart-actions">
-                  <Link to="/" className="continue-shopping-btn">Continue Shopping</Link>
-                  <button onClick={handleCheckout} className="checkout-btn">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
+                  <Link to="/" className="btn-secondary text-center">
+                    Continue Shopping
+                  </Link>
+                  <button onClick={handleCheckout} className="btn-primary">
                     Checkout
                   </button>
                 </div>
